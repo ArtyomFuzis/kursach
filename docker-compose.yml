@@ -1,0 +1,25 @@
+services:
+  gateway-redis:
+    image: redis:alpine
+    hostname: gw_redis
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 5s
+      retries: 10
+      start_period: 30s
+      timeout: 10s
+
+  gateway-api:
+    build:
+      context: api-gateway/
+      dockerfile: Dockerfile
+    hostname: gw_api
+    env_file: api-gateway.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      gateway-redis:
+        condition: service_healthy
+    ports:
+      - 8080:8080
