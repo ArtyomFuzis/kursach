@@ -68,9 +68,8 @@ services:
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
-
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+    healthcheck: 
+      test: ["CMD", "nc", "-z", "localhost", "8080"]
       interval: 5s
       timeout: 10s
       retries: 5
