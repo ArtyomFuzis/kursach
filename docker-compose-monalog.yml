@@ -1,0 +1,75 @@
+services:
+  filebeat:
+    build:
+      context: conf/monalog/filebeat
+      dockerfile: Dockerfile
+    hostname: filebeat
+    restart: always
+    volumes:
+      - //var/lib/docker/containers:/usr/share/dockerlogs/data:ro
+      - //var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - monitoring
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "filebeat", "test", "output"]
+      interval: 10s
+      timeout: 15s
+      retries: 25
+    
+  elasticsearch:
+    build:
+      context: conf/monalog/elasticsearch
+      dockerfile: Dockerfile
+    hostname: elasticsearch
+    restart: always
+    deploy:
+      resources:
+        limits: 
+          memory: 1G
+    networks:
+      - monitoring 
+    healthcheck:
+      test: curl -s http://localhost:9200 > /dev/null || exit 1
+      interval: 10s
+      timeout: 8s
+      retries: 20
+
+  kibana:
+    build:
+      context: conf/monalog/kibana
+      dockerfile: Dockerfile
+    hostname: kibana
+    ports:
+      - "8083:5601"
+    restart: always
+    networks:
+      - monitoring
+      - external-m
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: curl -s http://localhost:5601 > /dev/null || exit 1
+      interval: 10s
+      timeout: 8s
+      retries: 30
+
+  # logstash:
+  #   build:
+  #     context: conf/monalog/logstash
+  #     dockerfile: Dockerfile
+  #   hostname: logstash
+  #   restart: always
+  
+networks:
+  monitoring:
+    driver: bridge
+    internal: true
+  external-m:
+    driver: bridge
+    internal: false
+
+
