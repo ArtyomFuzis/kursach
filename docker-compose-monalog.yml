@@ -62,22 +62,62 @@ services:
       retries: 30
   
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    build:
+      context: conf/monalog/cadvisor
+      dockerfile: Dockerfile
     hostname: cadvisor
-    # privileged: true
-    # devices:
-    #   - //dev/kmsg:/dev/kmsg
+    privileged: true
+    devices:
+      - //dev/kmsg:/dev/kmsg
     volumes:
       - //:/rootfs:ro
       - //var/run:/var/run:ro
       - //sys:/sys:ro
       - //var/lib/docker:/var/lib/docker:ro
-      #- //cgroup:/cgroup:ro 
+      - //cgroup:/cgroup:ro 
     restart: unless-stopped
-    command:
-      - '--storage_driver=overlayfs2'
     networks:
       - monitoring
+    healthcheck:
+      test: curl -s http://localhost:8080 > /dev/null || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  nodeexporter:
+    image: prom/node-exporter:latest
+    hostname: node-exporter
+    volumes:
+      - //proc:/host/proc:ro
+      - //sys:/host/sys:ro
+      - //:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
+    networks:
+      - monitoring
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:9100/ || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 15
+  
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    hostname: nginx-exporter
+    restart: unless-stopped
+    command:
+      - '-nginx.scrape-uri=http://gw_nginx:80/nginx_status'
+    depends_on:
+      gateway-nginx:
+        condition: service_healthy
+    networks:
+      monitoring:
+      outer:
+        ipv4_address: 173.18.5.5
   
   prometheus:
     image: prom/prometheus:latest
@@ -98,6 +138,38 @@ services:
     networks:
       - monitoring
       - external-m
+    depends_on:
+      cadvisor:
+        condition: service_healthy
+      nodeexporter:
+        condition: service_healthy
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:9090/-/healthy || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 15
+  
+  grafana:
+    image: grafana/grafana:latest
+    hostname: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+     # - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+      - external-m
+    depends_on:
+      prometheus:
+        condition: service_healthy
+  
+  
 
   # logstash:
   #   build:

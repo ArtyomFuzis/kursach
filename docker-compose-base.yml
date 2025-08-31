@@ -11,8 +11,9 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - outer
-      - external-b
+      outer:
+        ipv4_address: 173.18.5.4
+      external-b:
       
   gateway-api:
     build:
@@ -24,10 +25,37 @@ services:
       gateway-redis:
         condition: service_healthy
     networks:
-      - outer
+      outer:
+        ipv4_address: 173.18.5.3
+    
+  gateway-nginx:
+    image: nginx:latest
+    hostname: gw_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./conf/base/nginx:/etc/nginx/conf.d/:ro
+      #- ./certbot/www:/var/www/certbot/:ro
+      #- ./certbot/conf/:/etc/nginx/ssl/:ro
+      - ./nginx-frontends:/var/www/html/
+    restart: unless-stopped
+    networks:
+      outer:
+        ipv4_address: 173.18.5.2
+      external-b:
+    depends_on:
+      gateway-api:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "service", "nginx", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
   
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    hostname: zookeeper
     restart: unless-stopped
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -45,6 +73,7 @@ services:
     
   kafka:
     image: confluentinc/cp-kafka:7.6.0
+    hostname: kafka
     restart: unless-stopped
     depends_on:
       zookeeper:
@@ -69,6 +98,7 @@ services:
       - external-b
 
   kafka-ui:
+    hostname: kafka-ui
     build:
       context: conf/base/kafka_ui
       dockerfile: Dockerfile
@@ -89,11 +119,15 @@ services:
     networks:
       - inner
       - external-b
+  
 
 networks:
   outer:
     driver: bridge
     internal: true
+    ipam:
+     config:
+       - subnet: 173.18.5.0/24
 
   inner:
     driver: bridge
