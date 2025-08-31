@@ -1,10 +1,14 @@
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+
 services:
   filebeat:
     build:
       context: conf/monalog/filebeat
       dockerfile: Dockerfile
     hostname: filebeat
-    restart: always
+    restart: unless-stopped
     volumes:
       - //var/lib/docker/containers:/usr/share/dockerlogs/data:ro
       - //var/run/docker.sock:/var/run/docker.sock
@@ -24,7 +28,7 @@ services:
       context: conf/monalog/elasticsearch
       dockerfile: Dockerfile
     hostname: elasticsearch
-    restart: always
+    restart: unless-stopped
     deploy:
       resources:
         limits: 
@@ -44,7 +48,7 @@ services:
     hostname: kibana
     ports:
       - "8083:5601"
-    restart: always
+    restart: unless-stopped
     networks:
       - monitoring
       - external-m
@@ -56,13 +60,51 @@ services:
       interval: 10s
       timeout: 8s
       retries: 30
+  
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    hostname: cadvisor
+    # privileged: true
+    # devices:
+    #   - //dev/kmsg:/dev/kmsg
+    volumes:
+      - //:/rootfs:ro
+      - //var/run:/var/run:ro
+      - //sys:/sys:ro
+      - //var/lib/docker:/var/lib/docker:ro
+      #- //cgroup:/cgroup:ro 
+    restart: unless-stopped
+    command:
+      - '--storage_driver=overlayfs2'
+    networks:
+      - monitoring
+  
+  prometheus:
+    image: prom/prometheus:latest
+    hostname: prometheus
+    volumes:
+      - ./conf/monalog/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+      - external-m
 
   # logstash:
   #   build:
   #     context: conf/monalog/logstash
   #     dockerfile: Dockerfile
   #   hostname: logstash
-  #   restart: always
+  #   restart: unless-stopped
   
 networks:
   monitoring:
