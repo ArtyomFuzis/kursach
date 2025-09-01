@@ -30,6 +30,7 @@ public class AuthService {
     public void init(){
         var tempMap = new HashMap<String, List<String>>();
         tempMap.put("/api/public/**", List.of());
+        tempMap.put("/**", List.of());
         tempMap.put("/api/private/**", List.of(Roles.ROLE_USER.getAuthority(),Roles.ROLE_ADMIN.getAuthority()));
         tempMap.put("/auth/register", List.of());
         tempMap.put("/auth/login", List.of());

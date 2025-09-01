@@ -11,7 +11,7 @@ import java.time.Duration;
 @Service
 @RequiredArgsConstructor
 public class RateLimiterService {
-    private static final int REQUEST_LIMIT = 10;
+    private static final int REQUEST_LIMIT = 50;
     private static final long LIMIT_TIMEOUT_SECONDS = 5;
     private final StringRedisTemplate redisTemplate;
     private static final String KEY_TEMPLATE = "rate_limit:%s";
