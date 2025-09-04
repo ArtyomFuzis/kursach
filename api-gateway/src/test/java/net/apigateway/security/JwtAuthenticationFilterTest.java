@@ -8,14 +8,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.project.TokenLib;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.TestPropertySource;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +45,9 @@ public class JwtAuthenticationFilterTest {
     }
     @Test
     public void shouldReturnValid() throws ServletException, IOException {
-        String testToken = service.generateToken("test", List.of(new SimpleGrantedAuthority("ROLE_USER")), new Date(System.currentTimeMillis() + 60_000));
+        var role = new SimpleGrantedAuthority("ROLE_USER");
+        TokenLib.generateToken("test", Collections.singletonList(role), new Date(System.currentTimeMillis() + 60_000));
+        String testToken = TokenLib.generateToken("test", List.of(new SimpleGrantedAuthority("ROLE_USER")), new Date(System.currentTimeMillis() + 60_000));
         Mockito.when(request.getHeader("Authorization")).thenReturn("Bearer " + testToken);
         filter.doFilterInternal(request, null, chain);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

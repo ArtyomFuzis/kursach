@@ -7,6 +7,7 @@ plugins {
 group = 'net'
 version = '0.0.1-SNAPSHOT'
 
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -20,10 +21,12 @@ configurations {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
 dependencies {
+    implementation 'org.project:token-lib:1.0'
     implementation 'io.jsonwebtoken:jjwt-api:0.12.7'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.7'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.7'

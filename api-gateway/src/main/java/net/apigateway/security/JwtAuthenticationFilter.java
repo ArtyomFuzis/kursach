@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.project.TokenLib;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,7 +20,8 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtValidationService jwtValidationService;
+//    private final JwtValidationService jwtValidationService;
+//    private final TokenLib jwtValidationService;
     private final String AUTH_HEADER_NAME = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
     private final int TOKEN_START_INDEX = TOKEN_PREFIX.length();
@@ -33,9 +35,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+
         String token = authorizationHeader.substring(TOKEN_START_INDEX);
-        String username = jwtValidationService.extractUsername(token);
-        List<GrantedAuthority> roles = jwtValidationService.extractRoles(token);
+//        String username = jwtValidationService.extractUsername(token);
+//        List<GrantedAuthority> roles = jwtValidationService.extractRoles(token);
+        String username = TokenLib.extractUsername(token);
+        List<GrantedAuthority> roles = TokenLib.extractRoles(token);
         Authentication auth = new UsernamePasswordAuthenticationToken(username, null, roles);
 
         SecurityContextHolder.getContext().setAuthentication(auth);

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ApiGateway.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ApiGateway.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/kursach.iml" filepath="$PROJECT_DIR$/.idea/kursach.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sso-service/sso-service.iml" filepath="$PROJECT_DIR$/sso-service/sso-service.iml" />
     </modules>
   </component>
 </project>
