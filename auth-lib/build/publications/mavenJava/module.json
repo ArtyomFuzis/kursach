@@ -1,0 +1,127 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.project",
+    "module": "auth-lib",
+    "version": "1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.10"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "auth-lib-1.0.jar",
+          "url": "auth-lib-1.0.jar",
+          "size": 4829,
+          "sha512": "87240ee988ca26c3bbd8e780dfaa2abbdd3551359c6f8e80ffd357e4cfd2aa5add26a99a13c16a5e6a9304b0b01cf4860a91f7cd80c14f1d639447b365d6fd2a",
+          "sha256": "ecd181472ce71282734b6082b49743cec24bc670cccdc5e4847e0ef0acc1fba6",
+          "sha1": "cae9a4904e7896af4c92b8fcf5f3167f99019689",
+          "md5": "cd158993f496ada3244cb0bcfd60a41a"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.jsonwebtoken",
+          "module": "jjwt-api",
+          "version": {
+            "requires": "0.12.7"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-core"
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-beans"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-security"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-data-jpa"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-data-rest"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-jdbc"
+        },
+        {
+          "group": "io.jsonwebtoken",
+          "module": "jjwt-jackson",
+          "version": {
+            "requires": "0.12.7"
+          }
+        },
+        {
+          "group": "io.jsonwebtoken",
+          "module": "jjwt-impl",
+          "version": {
+            "requires": "0.12.7"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "auth-lib-1.0.jar",
+          "url": "auth-lib-1.0.jar",
+          "size": 4829,
+          "sha512": "87240ee988ca26c3bbd8e780dfaa2abbdd3551359c6f8e80ffd357e4cfd2aa5add26a99a13c16a5e6a9304b0b01cf4860a91f7cd80c14f1d639447b365d6fd2a",
+          "sha256": "ecd181472ce71282734b6082b49743cec24bc670cccdc5e4847e0ef0acc1fba6",
+          "sha1": "cae9a4904e7896af4c92b8fcf5f3167f99019689",
+          "md5": "cd158993f496ada3244cb0bcfd60a41a"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "auth-lib-1.0-sources.jar",
+          "url": "auth-lib-1.0-sources.jar",
+          "size": 2303,
+          "sha512": "e57837f207fe126ff66aee6bdf93ebdbaadbf66daf52546aeb65d3ddc60eba7da92c6f4b46a2f33bcc4fc7d6ea80cf6eb2ec2b389317b472c50d077973a9e876",
+          "sha256": "4b90877f09652cf35246f6c4525c0f6d40c1224971441214ffa0acf815b5c4c0",
+          "sha1": "9e209cdfa744a26dd42c62b07e3184d113d3bb88",
+          "md5": "ff81d4448c60842ec9f8429e780b9579"
+        }
+      ]
+    }
+  ]
+}

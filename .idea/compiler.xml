@@ -10,5 +10,9 @@
         <module name="ApiGateway.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="token-lib.main" target="23" />
+      <module name="token-lib.test" target="23" />
+    </bytecodeTargetLevel>
   </component>
 </project>
