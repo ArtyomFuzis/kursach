@@ -1,0 +1,127 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.common",
+    "module": "common-lib",
+    "version": "1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.10"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "common-lib-1.0.jar",
+          "url": "common-lib-1.0.jar",
+          "size": 7085,
+          "sha512": "338f751b857d2602096940e23a618ab2836259f22cc49e46ae3a7b1aa875081b9f33804b0de7d1f37531ef5b1f6c046b5408b24b47cb7dd5bf6d17cea4b935ad",
+          "sha256": "082b2647217f1d3c3ac0c4794a5940a56c1e170a01e92755a7fb859ac8f436e1",
+          "sha1": "770b99e981ee4b9a5806ea7d63694129835b764d",
+          "md5": "fcb6be250334948a18829d26194d2925"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "io.jsonwebtoken",
+          "module": "jjwt-api",
+          "version": {
+            "requires": "0.12.7"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-core"
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-beans"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-security"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-data-jpa"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-data-rest"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-jdbc"
+        },
+        {
+          "group": "io.jsonwebtoken",
+          "module": "jjwt-jackson",
+          "version": {
+            "requires": "0.12.7"
+          }
+        },
+        {
+          "group": "io.jsonwebtoken",
+          "module": "jjwt-impl",
+          "version": {
+            "requires": "0.12.7"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "common-lib-1.0.jar",
+          "url": "common-lib-1.0.jar",
+          "size": 7085,
+          "sha512": "338f751b857d2602096940e23a618ab2836259f22cc49e46ae3a7b1aa875081b9f33804b0de7d1f37531ef5b1f6c046b5408b24b47cb7dd5bf6d17cea4b935ad",
+          "sha256": "082b2647217f1d3c3ac0c4794a5940a56c1e170a01e92755a7fb859ac8f436e1",
+          "sha1": "770b99e981ee4b9a5806ea7d63694129835b764d",
+          "md5": "fcb6be250334948a18829d26194d2925"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "common-lib-1.0-sources.jar",
+          "url": "common-lib-1.0-sources.jar",
+          "size": 3793,
+          "sha512": "b15a97fd508c42a4049515c402df7ad0d4051bee6f2a4dbda325af13369cdfa277c6e4bce11adf29f1844013fd3cc6012bf67bf1da4e5a0f5642e86fa0ad27d7",
+          "sha256": "937a03f740be8d5a69bf75a2f4ecf36fdd2f44983d9dce2333519961532748be",
+          "sha1": "6be5c82ca27842712381289806a9051cae4a1d0b",
+          "md5": "3fcc34a35847b26e8e64c510002d5705"
+        }
+      ]
+    }
+  ]
+}
