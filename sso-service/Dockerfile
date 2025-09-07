@@ -1,6 +1,6 @@
 
 FROM gradle:jdk17-corretto-al2023 AS build
-COPY --chown=gradle:gradle api-gateway /home/gradle/src
+COPY --chown=gradle:gradle sso-service /home/gradle/src
 COPY --chown=gradle:gradle common-lib /home/gradle/lib_src
 WORKDIR /home/gradle/src
 RUN gradle build -x test

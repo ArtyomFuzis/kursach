@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.project.TokenLib;
+import org.commons.auth.TokenLib;
 
 import javax.crypto.SecretKey;
 import java.security.Key;

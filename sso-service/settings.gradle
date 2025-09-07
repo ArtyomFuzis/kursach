@@ -1,1 +1,2 @@
+includeBuild("../lib_src")
 rootProject.name = 'sso-service'

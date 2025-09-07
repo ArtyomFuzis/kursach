@@ -22,6 +22,10 @@ services:
       interval: 10s
       timeout: 15s
       retries: 25
+    labels:
+      - "db_container=no"
+      - "scope=monalog"
+      - "monalog=log"
     
   elasticsearch:
     build:
@@ -32,7 +36,7 @@ services:
     deploy:
       resources:
         limits: 
-          memory: 1G
+          memory: 512M
     networks:
       - monitoring 
     healthcheck:
@@ -40,6 +44,10 @@ services:
       interval: 10s
       timeout: 8s
       retries: 20
+    labels:
+      - "db_container=yes"
+      - "scope=monalog"
+      - "monalog=log"
 
   kibana:
     build:
@@ -60,6 +68,10 @@ services:
       interval: 10s
       timeout: 8s
       retries: 30
+    labels:
+      - "db_container=no"
+      - "scope=monalog"
+      - "monalog=log"
   
   cadvisor:
     build:
@@ -83,6 +95,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    labels:
+      - "db_container=no"
+      - "scope=monalog"
+      - "monalog=log"
 
   nodeexporter:
     image: prom/node-exporter:latest
@@ -104,6 +120,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 15
+    labels:
+      - "db_container=no"
+      - "scope=monalog"
+      - "monalog=mon"
   
   nginx-exporter:
     image: nginx/nginx-prometheus-exporter:latest
@@ -118,13 +138,17 @@ services:
       monitoring:
       outer:
         ipv4_address: 173.18.5.5
+    labels:
+      - "db_container=no"
+      - "scope=monalog"
+      - "monalog=mon"
   
   prometheus:
     image: prom/prometheus:latest
     hostname: prometheus
     volumes:
       - ./conf/monalog/prometheus:/etc/prometheus
-      - prometheus_data:/prometheus
+     # - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -148,6 +172,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 15
+    labels:
+      - "db_container=yes"
+      - "scope=monalog"
+      - "monalog=mon"
   
   grafana:
     image: grafana/grafana:latest
@@ -158,7 +186,6 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
-     # - GF_USERS_ALLOW_SIGN_UP=false
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -168,6 +195,10 @@ services:
     depends_on:
       prometheus:
         condition: service_healthy
+    labels:
+      - "db_container=no"
+      - "scope=monalog"
+      - "monalog=mon"
   
   
 

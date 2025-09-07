@@ -18,7 +18,7 @@ public class ConfigurationManager {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, serverAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, configGroupName);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        try (consumer = new KafkaConsumer<String, String>(props))
+        //try (consumer = new KafkaConsumer<String, String>(props))
     }
 
 

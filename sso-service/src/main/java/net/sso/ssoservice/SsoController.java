@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SsoController {
     @PostMapping(path = "/auth/register")
     public ResponseEntity<RegistrationResponse> register(@RequestBody RegistrationRequest registrationRequest) {
-
+        return null;
 
     }
 }

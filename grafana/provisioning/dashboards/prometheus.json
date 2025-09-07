@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": null,
   "links": [],
   "panels": [
     {
@@ -35,10 +35,7 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eewp31n2qn5z4b"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -107,10 +104,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eewp31n2qn5z4b"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "avg(up{job=\"prometheus\"}) or vector(inf)",
           "legendFormat": "__auto",
@@ -122,10 +116,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eewp31n2qn5z4b"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -197,10 +188,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eewp31n2qn5z4b"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "avg(up{job=\"cadvisor\"}) or vector(inf)",
           "legendFormat": "__auto",
@@ -212,10 +200,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eewp31n2qn5z4b"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -287,10 +272,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eewp31n2qn5z4b"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "avg(up{job=\"nodeexporter\"}) or vector(inf)",
           "legendFormat": "__auto",
@@ -302,10 +284,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "eewp31n2qn5z4b"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -377,10 +356,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "eewp31n2qn5z4b"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "avg(up{job=\"nginx\"}) or vector(inf)",
           "legendFormat": "__auto",

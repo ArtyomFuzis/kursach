@@ -1,3 +1,6 @@
+volumes:
+    postgresql_data: {}
+
 services:
   gateway-redis:
     image: redis:alpine
@@ -14,11 +17,14 @@ services:
       outer:
         ipv4_address: 173.18.5.4
       external-b:
+    labels:
+      - "db_container=yes"
+      - "scope=base"
       
   gateway-api:
     build:
-      context: api-gateway/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: api-gateway/Dockerfile
     hostname: gw_api
     env_file: api-gateway.env
     depends_on:
@@ -27,6 +33,9 @@ services:
     networks:
       outer:
         ipv4_address: 173.18.5.3
+    labels:
+      - "db_container=no"
+      - "scope=base"
     
   gateway-nginx:
     image: nginx:latest
@@ -52,6 +61,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    labels:
+      - "db_container=no"
+      - "scope=base"
   
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -70,6 +82,9 @@ services:
     networks:
       - inner
       - external-b
+    labels:
+      - "db_container=yes"
+      - "scope=base"
     
   kafka:
     image: confluentinc/cp-kafka:7.6.0
@@ -96,6 +111,9 @@ services:
     networks:
       - inner
       - external-b
+    labels:
+      - "db_container=yes"
+      - "scope=base"
 
   kafka-ui:
     hostname: kafka-ui
@@ -119,6 +137,46 @@ services:
     networks:
       - inner
       - external-b
+    labels:
+      - "db_container=no"
+      - "scope=base"
+  
+  service-sso:
+    hostname: sso
+    build:
+      context: .
+      dockerfile: sso-service/Dockerfile
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+      postgresql:
+        condition: service_healthy
+    networks:
+      inner:
+      outer:
+        ipv4_address: 173.18.5.6
+    labels:
+      - "db_container=no"
+      - "scope=base"
+  
+  postgresql:
+    hostname: postgresql
+    image: postgres:18rc1-alpine
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      inner:
+      external-b:
+    labels:
+      - "db_container=yes"
+      - "scope=base"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
   
 
 networks:
